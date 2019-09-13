@@ -54,11 +54,11 @@ server.get('/api/ingredients/:id/recipes', (req, res) => {
 
 // create animal
 server.post('/api/recipes', (req, res) => {
-  db('recipe').insert(req.body)
+  db('recipes').insert(req.body)
   .then(ids => {
     const id = ids[0];
 
-    db('recipe')
+    db('recipes')
       .where({ id })
       .first()
     .then(recipe => {
@@ -72,12 +72,14 @@ server.post('/api/recipes', (req, res) => {
 
 // remove species
 server.delete('/api/recipe/:id', (req, res) => {
-  db('recipe')
+  db('recipes')
     .where({ id: req.params.id })
     .del()
   .then(count => {
+    console.log('count',count)
     if (count > 0) {
-      res.status(204).end();
+      console.log('got here')
+      res.status(200).json({ message: `deleted ${count} recipe${count >1 ? 's' : ''} with ID ${req.params.id}` });
     } else {
       res.status(404).json({ message: 'Record not found' });
     }
