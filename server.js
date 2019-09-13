@@ -1,4 +1,4 @@
-uconst express = require('express');
+const express = require('express');
 const helmet = require('helmet');
 
 const db = require('./data/db-config.js');
@@ -20,11 +20,7 @@ server.get('/api/recipes', (req, res) => {
 });
 
 server.get('/api/instructions', (req, res) => {
-  // get all animals from the database
-  // include species name
-  db('recipes as a')
-    .leftJoin('instructions as s', 's.id', 'a.recipe_id')
-    .select('a.id', 'a.recipe_name', 's.instruction')
+  db('recipe_instructions')
   .then(instructions => {
     res.status(200).json(instructions);
   })
@@ -34,7 +30,7 @@ server.get('/api/instructions', (req, res) => {
 });
 
 // create animal
-server.post('/api/recipe', (req, res) => {
+server.post('/api/recipes', (req, res) => {
   db('recipe').insert(req.body)
   .then(ids => {
     const id = ids[0];
