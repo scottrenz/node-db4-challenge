@@ -29,6 +29,16 @@ server.get('/api/instructions', (req, res) => {
   });
 });
 
+server.get('/api/shoppinglist', (req, res) => {
+  db('shoppinglist')
+  .then(instructions => {
+    res.status(200).json(instructions);
+  })
+  .catch(error => {
+    res.status(500).json(error);
+  });
+});
+
 // create animal
 server.post('/api/recipes', (req, res) => {
   db('recipe').insert(req.body)
